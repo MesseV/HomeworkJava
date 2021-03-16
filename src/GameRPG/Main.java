@@ -88,7 +88,7 @@ public class Main {
         System.out.println();
     }
     if (jucator.getHp() <= 0) {
-        System.out.println("You were defeated by a " + enemy.getName() + ".");
+        System.out.println("You were defeated by: " + enemy.getName() + ".");
     }
 }
 
