@@ -5,11 +5,17 @@ public class Character {
     private String name;
     private int hp;
     private int attackPower;
+    private int experience;
+    private int level;
+    private int armour;
 
-    public Character(int hp, int attackPower, String name) {
+    public Character(int hp, int attackPower, String name, int experience, int level, int armour) {
         this.hp = hp;
         this.attackPower = attackPower;
         this.name = name;
+        this.experience = experience;
+        this.level = level;
+        this.armour = armour;
     }
 
     public int getHp() {
@@ -34,5 +40,29 @@ public class Character {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getArmour() {
+        return armour;
+    }
+
+    public void setArmour(int armour) {
+        this.armour = armour;
     }
 }
