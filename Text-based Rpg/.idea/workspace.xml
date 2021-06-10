@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e94f2c6-4a82-44e5-bbc5-bce4c7a93cf8" name="Default Changelist" comment="directory changes">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameRPG/Characters/NPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameRPG/Characters/NPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GameRPG/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameRPG/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Characters/Character.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Characters/Character.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Characters/NPC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Characters/NPC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Characters/PlayerCharacter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Homework Java/GameRPG/Characters/PlayerCharacter.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
