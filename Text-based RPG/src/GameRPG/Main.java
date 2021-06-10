@@ -1,8 +1,5 @@
 package GameRPG;
 
-import GameRPG.Characters.NPC;
-import GameRPG.Characters.PlayerCharacter;
-
 import java.util.Scanner;
 
 public class Main {
