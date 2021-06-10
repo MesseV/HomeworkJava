@@ -1,10 +1,13 @@
 package GameRPG;
 
+import GameRPG.Characters.NPC;
+import GameRPG.Characters.PlayerCharacter;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        PlayerCharacter jucator = new PlayerCharacter(40, 20, "Hero", 0, 1, 1);
+        PlayerCharacter jucator = new PlayerCharacter(40, 20, "Hero", 0, 1, 1, 40);
 
 
         int score = 0;
@@ -126,11 +129,15 @@ public class Main {
         Scanner reader = new Scanner(System.in);
         System.out.println("After the battle you assess your situation - Life points: " + jucator.getHp());
         System.out.println("You now have " + jucator.getExperience() + " experience points.");
-        if (jucator.getExperience() >= 10) {
+        if (jucator.getExperience() >= (jucator.getLevel() * 5 + 10)) {
             jucator.setLevel(jucator.getLevel() + 1);
             System.out.println("You've leveled up. You are now level " + jucator.getLevel() + ". Your stats have increased by 2.");
-            jucator.setExperience(jucator.getExperience() - 10);
-            jucator.setHp(jucator.getHp() + 2);
+            jucator.setExperience(0);
+            jucator.setMaxHp(jucator.getMaxHp() + 2);
+            jucator.setHp(jucator.getHp() + 3);
+            if (jucator.getHp() > jucator.getMaxHp()) {
+                jucator.setHp(jucator.getMaxHp());
+            }
             jucator.setAttackPower(jucator.getAttackPower() + 2);
         }
         System.out.println("What should your next move be?");

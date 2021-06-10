@@ -1,21 +1,23 @@
-package GameRPG;
+package GameRPG.Characters;
 
 public class Character {
 
     private String name;
+    private int maxHp;
     private int hp;
     private int attackPower;
     private int experience;
     private int level;
     private int armour;
 
-    public Character(int hp, int attackPower, String name, int experience, int level, int armour) {
+    public Character(int hp, int attackPower, String name, int experience, int level, int armour, int maxHp) {
         this.hp = hp;
         this.attackPower = attackPower;
         this.name = name;
         this.experience = experience;
         this.level = level;
         this.armour = armour;
+        this.maxHp = maxHp;
     }
 
     public int getHp() {
@@ -64,5 +66,13 @@ public class Character {
 
     public void setArmour(int armour) {
         this.armour = armour;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 }

@@ -1,4 +1,4 @@
-package GameRPG;
+package GameRPG.Characters;
 
 public class NPC extends Character{
 
