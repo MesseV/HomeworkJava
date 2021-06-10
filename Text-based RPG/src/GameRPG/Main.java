@@ -2,6 +2,7 @@ package GameRPG;
 import GameRPG.Characters.NPC;
 import GameRPG.Characters.PlayerCharacter;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -15,15 +16,20 @@ public class Main {
                 30,
                 0);
 
+        System.out.println("Player character: ☲");
+        System.out.println("Empty space: ▢");
+        System.out.println("Experience fountain: ★");
+        System.out.println("Healing well: ▩");
+        System.out.println("Dilemma: ☯");
+        System.out.println("Enemy: ☒");
+        System.out.println("Exit: ▣");
 
-        int score = 0;
-        while (player.getHp() > 0) {
-            traversingWorld(player);
-            score++;
-        }
         System.out.println();
-        System.out.println("Game over!");
-        System.out.println("Congratulations, you defeated " + score + " enemies.");
+
+        char[][] createdMap = initiateWorldMap();
+        char[][] finishedDungeon = mapGeneration(createdMap);
+
+
 
 
     }
@@ -213,4 +219,79 @@ public class Main {
             }
 
     }
+
+    public static char[][] initiateWorldMap () {
+        int max = 6;
+        int min = 3;
+        int range = max - min + 1;
+        int x = (int) (Math.random() * range) + min;
+        int y = (int) (Math.random() * range) + min;
+        return new char[x][y];
+    }
+
+    public static char[][] mapGeneration (char[][] worldMap) {
+        int exitX = 0;
+        int exitY = (int) (Math.random() * ((worldMap[exitX].length - 1) + 1));
+        int playerX = worldMap.length - 1;
+        int playerY = (int) (Math.random() * ((worldMap[playerX].length - 1) + 1));
+        for (int i = 0; i< worldMap.length; i++) {
+            for (int j = 0; j < worldMap[i].length; j++) {
+                worldMap[i][j] = '▢';
+                worldMap[exitX][exitY] = '▣';
+                worldMap[playerX][playerY] = '☲';
+            }
+        }
+
+        for (int i = 0; i< worldMap.length; i++) {
+            for (int j = 0; j < worldMap[i].length; j++) {
+                int enemyX = (int) (Math.random() * ((worldMap.length - 1) + 1));
+                int enemyY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
+                if (worldMap[enemyX][enemyY] == '▢') {
+                    worldMap[enemyX][enemyY] = '☒';
+                }
+                int expX = (int) (Math.random() * ((worldMap.length - 1) + 1));
+                int expY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
+                if (worldMap[expX][expY] == '▢') {
+                    worldMap[exitX][expY] = '✫';
+                }
+                int healX = (int) (Math.random() * ((worldMap.length - 1) + 1));
+                int healY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
+                if (worldMap[healX][healY] == '▢') {
+                    worldMap[healX][healY] = '▩';
+                }
+                int dilemmaX = (int) (Math.random() * ((worldMap.length - 1) + 1));
+                int dilemmaY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
+                if (worldMap[dilemmaX][dilemmaY] == '▢') {
+                    worldMap[dilemmaX][dilemmaY] = '☯';
+                }
+                System.out.print(worldMap[i][j] + " ");
+            }
+            System.out.println();
+        }
+        return worldMap;
+    }
+
+    public static boolean arrayContains (char[][] worldMap) {
+        for (int i = 0; i < worldMap.length; i++) {
+          for (int j = 0; j < worldMap[i].length; j++) {
+                if (worldMap[i][j] == '▣') return true;
+        }
+    }
+    return false;
+}
+
+//    public static char[][] playerMove (char[][] worldMap) {
+//        Scanner reader = new Scanner(System.in);
+//        System.out.println("Move:");
+//        System.out.println("1. Up");
+//        System.out.println("2. Left");
+//        System.out.println("3. Right");
+//        System.out.println("4. Down");
+//        while(arrayContains(worldMap)) {
+//            int moveChoice = reader.nextInt();
+//            if (moveChoice == 1) {
+//
+//            }
+//        }
+//    }
 }
