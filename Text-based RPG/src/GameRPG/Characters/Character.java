@@ -9,8 +9,9 @@ public class Character {
     private int experience;
     private int level;
     private int armour;
+    private int skillPoints;
 
-    public Character(int hp, int attackPower, String name, int experience, int level, int armour, int maxHp) {
+    public Character(int hp, int attackPower, String name, int experience, int level, int armour, int maxHp, int skillPoints) {
         this.hp = hp;
         this.attackPower = attackPower;
         this.name = name;
@@ -18,6 +19,7 @@ public class Character {
         this.level = level;
         this.armour = armour;
         this.maxHp = maxHp;
+        this.skillPoints = skillPoints;
     }
 
     public int getHp() {
@@ -74,5 +76,13 @@ public class Character {
 
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
+    }
+
+    public int getSkillPoints() {
+        return skillPoints;
+    }
+
+    public void setSkillPoints(int skillPoints) {
+        this.skillPoints = skillPoints;
     }
 }
