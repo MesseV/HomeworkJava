@@ -199,6 +199,7 @@ public class Main {
         System.out.println("----------------------------------------");
         return rat;
     }
+
     public static NPC spawnThug() {
         NPC thug = new NPC(25, 6, "Thug", 0, 3, 1, 25, 0, 1);
         System.out.println("You ran into a lowly thug!");
@@ -206,6 +207,7 @@ public class Main {
         System.out.println("----------------------------------------");
         return thug;
     }
+
     public static NPC spawnAssassin() {
         NPC assassin = new NPC(30, 8, "Assassin", 0, 5, 2, 30, 0, 2);
         System.out.println("You ran into a trained assassin!");
