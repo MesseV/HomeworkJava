@@ -1,8 +1,6 @@
 package GameRPG;
 import GameRPG.Characters.NPC;
 import GameRPG.Characters.PlayerCharacter;
-
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -16,18 +14,26 @@ public class Main {
                 30,
                 0);
 
-        System.out.println("Player character: ☲");
-        System.out.println("Empty space: ▢");
-        System.out.println("Experience fountain: ★");
-        System.out.println("Healing well: ▩");
-        System.out.println("Dilemma: ☯");
-        System.out.println("Enemy: ☒");
+        System.out.println("Player character: ☲           Enemy: ☒");
+        System.out.println("Healing well: ▩         Empty space: ▢");
         System.out.println("Exit: ▣");
+
+        System.out.println("Level " + player.getLevel()
+                + " | Exp: " + player.getExperience() + "/" + (player.getLevel() * 5 + 10)
+                + " | Life points: " + player.getHp() + "/" + player.getMaxHp()
+                + " | Attack power: " + player.getAttackPower()
+                + " | Armour: " + player.getArmour());
+
+        System.out.println("----------------------------------------");
 
         System.out.println();
 
+
         char[][] createdMap = initiateWorldMap();
         char[][] finishedDungeon = mapGeneration(createdMap);
+        playerMove(finishedDungeon, player);
+
+
 
 
 
@@ -186,38 +192,26 @@ public class Main {
         }
     }
 
-    public static void traversingWorld(PlayerCharacter player) {
-            System.out.println("Level " + player.getLevel()
-                    + " | Exp: " + player.getExperience() + "/" + (player.getLevel() * 5 + 10)
-                    + " | Life points: " + player.getHp() + "/" + player.getMaxHp()
-                    + " | Attack power: " + player.getAttackPower()
-                    + " | Armour: " + player.getArmour());
-
-            System.out.println("----------------------------------------");
-            int random = (int) (Math.random() * 3 - 1 + 1);
-            if (random == 0) {
-                NPC rat = new NPC(15, 4, "rat", 0, 1, 0, 15, 0);
-                System.out.println("You ran into a rat!");
-                System.out.println("Enemy life points: " + rat.getHp() + " | Attack power: " + rat.getAttackPower());
-                System.out.println("----------------------------------------");
-                battlePhase(player, rat);
-                displayBattleResults(player, rat);
-            } else if (random == 1) {
-                NPC thug = new NPC(25, 6, "Thug", 0, 3, 1, 25, 0);
-                System.out.println("You ran into a lowly thug!");
-                System.out.println("Enemy life points: " + thug.getHp() + " | Attack power: " + thug.getAttackPower());
-                System.out.println("----------------------------------------");
-                battlePhase(player, thug);
-                displayBattleResults(player, thug);
-            } else if (random == 2) {
-                NPC assassin = new NPC(30, 8, "Assassin", 0, 5, 2, 30, 0);
-                System.out.println("You ran into a trained assassin!");
-                System.out.println("Enemy life points: " + assassin.getHp() + " | Attack power: " + assassin.getAttackPower());
-                System.out.println("----------------------------------------");
-                battlePhase(player, assassin);
-                displayBattleResults(player, assassin);
-            }
-
+    public static NPC spawnRat() {
+        NPC rat = new NPC(15, 4, "rat", 0, 1, 0, 15, 0, 0);
+        System.out.println("You ran into a rat!");
+        System.out.println("Enemy life points: " + rat.getHp() + " | Attack power: " + rat.getAttackPower());
+        System.out.println("----------------------------------------");
+        return rat;
+    }
+    public static NPC spawnThug() {
+        NPC thug = new NPC(25, 6, "Thug", 0, 3, 1, 25, 0, 1);
+        System.out.println("You ran into a lowly thug!");
+        System.out.println("Enemy life points: " + thug.getHp() + " | Attack power: " + thug.getAttackPower());
+        System.out.println("----------------------------------------");
+        return thug;
+    }
+    public static NPC spawnAssassin() {
+        NPC assassin = new NPC(30, 8, "Assassin", 0, 5, 2, 30, 0, 2);
+        System.out.println("You ran into a trained assassin!");
+        System.out.println("Enemy life points: " + assassin.getHp() + " | Attack power: " + assassin.getAttackPower());
+        System.out.println("----------------------------------------");
+        return assassin;
     }
 
     public static char[][] initiateWorldMap () {
@@ -249,20 +243,10 @@ public class Main {
                 if (worldMap[enemyX][enemyY] == '▢') {
                     worldMap[enemyX][enemyY] = '☒';
                 }
-                int expX = (int) (Math.random() * ((worldMap.length - 1) + 1));
-                int expY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
-                if (worldMap[expX][expY] == '▢') {
-                    worldMap[exitX][expY] = '✫';
-                }
                 int healX = (int) (Math.random() * ((worldMap.length - 1) + 1));
                 int healY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
                 if (worldMap[healX][healY] == '▢') {
                     worldMap[healX][healY] = '▩';
-                }
-                int dilemmaX = (int) (Math.random() * ((worldMap.length - 1) + 1));
-                int dilemmaY = (int) (Math.random() * ((worldMap[i].length - 1) + 1));
-                if (worldMap[dilemmaX][dilemmaY] == '▢') {
-                    worldMap[dilemmaX][dilemmaY] = '☯';
                 }
                 System.out.print(worldMap[i][j] + " ");
             }
@@ -280,18 +264,60 @@ public class Main {
     return false;
 }
 
-//    public static char[][] playerMove (char[][] worldMap) {
-//        Scanner reader = new Scanner(System.in);
-//        System.out.println("Move:");
-//        System.out.println("1. Up");
-//        System.out.println("2. Left");
-//        System.out.println("3. Right");
-//        System.out.println("4. Down");
-//        while(arrayContains(worldMap)) {
-//            int moveChoice = reader.nextInt();
-//            if (moveChoice == 1) {
-//
-//            }
-//        }
-//    }
+    public static char[][] playerMove (char[][] worldMap, PlayerCharacter player) {
+        Scanner reader = new Scanner(System.in);
+        System.out.println();
+        System.out.println("Move:");
+        System.out.println("1. Up");
+        System.out.println("2. Left");
+        System.out.println("3. Right");
+        System.out.println("4. Down");
+        while (arrayContains(worldMap)) {
+            for (int i = 0; i < worldMap.length; i++) {
+                for (int j = 0; j < worldMap[i].length - 1; j++) {
+                    if (worldMap[i][j] == '☲') {
+                        int direction = reader.nextInt();
+                        reader.nextLine();
+                        if (direction == 1) {
+                            worldMap[i][j] = worldMap[i - 1][j];
+                            worldMap[i][j] = '▢';
+                            if (worldMap[i - 1][j] == '☒') {
+                                int randomEnemy = (int) (Math.random() * 3 - 1 + 1);
+                                if (randomEnemy == 0) {
+                                    NPC rat = spawnRat();
+                                    battlePhase(player, rat);
+                                    displayBattleResults(player, rat);
+                                } else if (randomEnemy == 1) {
+                                    NPC thug = spawnThug();
+                                    battlePhase(player, thug);
+                                    displayBattleResults(player, thug);
+                                } else {
+                                    NPC assassin = spawnAssassin();
+                                    battlePhase(player, assassin);
+                                    displayBattleResults(player, assassin);
+                                }
+
+
+                            } else if (worldMap[i - 1][j] == '▩') {
+
+                            } else if (worldMap[i - 1][j] == '▢') {
+
+                            } else if (worldMap[i - 1][j] == '▣') {
+
+                            }
+
+                            for (i = 0; i< worldMap.length; i++) {
+                                for (j = 0; j < worldMap[i].length; j++) {
+                                    System.out.print(worldMap[i][j] + " ");
+                                }
+                                System.out.println();
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }
