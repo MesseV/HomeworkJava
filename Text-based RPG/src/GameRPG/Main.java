@@ -1,7 +1,6 @@
 package GameRPG;
 import GameRPG.Characters.NPC;
 import GameRPG.Characters.PlayerCharacter;
-import GameRPG.Exceptions.OutOfBoundsException;
 
 import java.util.Scanner;
 
@@ -60,8 +59,6 @@ public class Main {
                         healingWell(player);
                     } else if (playerLocationAfterMoving == 3) {
 
-                    } else if (playerLocationAfterMoving == 4) {
-
                     }
 
                     for (int i = 0; i < finishedDungeon.length; i++) {
@@ -70,12 +67,13 @@ public class Main {
                         }
                         System.out.println();
                     }
-                } catch (OutOfBoundsException ex) {
-
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    System.out.println("You hit your head on a wall.");
                 }
             }
-
-
+            System.out.println("You find the stairs and descend.");
+            System.out.println("The steps seem endless, but you eventually reach the lower level.");
+            System.out.println();
         }
     }
 
