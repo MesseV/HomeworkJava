@@ -27,7 +27,6 @@ public class Main {
                 + " | Armour: " + player.getArmour());
 
         System.out.println("----------------------------------------");
-
         System.out.println();
 
         while (true) {
