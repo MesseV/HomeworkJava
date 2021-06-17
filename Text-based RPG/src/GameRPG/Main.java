@@ -1,10 +1,13 @@
 package GameRPG;
 import GameRPG.Characters.NPC;
 import GameRPG.Characters.PlayerCharacter;
+import GameRPG.Exceptions.OutOfBoundsException;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner reader = new Scanner(System.in);
         PlayerCharacter player = new PlayerCharacter(30,
                 15,
                 "Hero",
@@ -28,16 +31,52 @@ public class Main {
 
         System.out.println();
 
+        while (true) {
+            char[][] createdMap = initiateWorldMap();
+            char[][] finishedDungeon = mapGeneration(createdMap);
+            while (arrayContains(finishedDungeon)) {
+                System.out.println();
+                System.out.println("Move: 1.Up    2.Left    3.Right    4.Down");
+                int direction = reader.nextInt();
+                reader.nextLine();
+                try {
+                    int playerLocationAfterMoving = playerMove(finishedDungeon, player, direction);
+                    if (playerLocationAfterMoving == 1) {
+                        int randomEnemy = (int) (Math.random() * 3 - 1 + 1);
+                        if (randomEnemy == 0) {
+                            NPC rat = spawnRat();
+                            battlePhase(player, rat);
+                            displayBattleResults(player, rat);
+                        } else if (randomEnemy == 1) {
+                            NPC thug = spawnThug();
+                            battlePhase(player, thug);
+                            displayBattleResults(player, thug);
+                        } else {
+                            NPC assassin = spawnAssassin();
+                            battlePhase(player, assassin);
+                            displayBattleResults(player, assassin);
+                        }
+                    } else if (playerLocationAfterMoving == 2) {
+                        healingWell(player);
+                    } else if (playerLocationAfterMoving == 3) {
 
-        char[][] createdMap = initiateWorldMap();
-        char[][] finishedDungeon = mapGeneration(createdMap);
-        playerMove(finishedDungeon, player);
+                    } else if (playerLocationAfterMoving == 4) {
+
+                    }
+
+                    for (int i = 0; i < finishedDungeon.length; i++) {
+                        for (int j = 0; j < finishedDungeon[i].length; j++) {
+                            System.out.print(finishedDungeon[i][j] + " ");
+                        }
+                        System.out.println();
+                    }
+                } catch (OutOfBoundsException ex) {
+
+                }
+            }
 
 
-
-
-
-
+        }
     }
 
 
@@ -266,60 +305,136 @@ public class Main {
     return false;
 }
 
-    public static char[][] playerMove (char[][] worldMap, PlayerCharacter player) {
-        Scanner reader = new Scanner(System.in);
-        System.out.println();
-        System.out.println("Move:");
-        System.out.println("1. Up");
-        System.out.println("2. Left");
-        System.out.println("3. Right");
-        System.out.println("4. Down");
-        while (arrayContains(worldMap)) {
+    public static int playerMove (char[][] worldMap, PlayerCharacter player, int direction) {
             for (int i = 0; i < worldMap.length; i++) {
-                for (int j = 0; j < worldMap[i].length - 1; j++) {
+                for (int j = 0; j < worldMap[i].length; j++) {
                     if (worldMap[i][j] == '☲') {
-                        int direction = reader.nextInt();
-                        reader.nextLine();
                         if (direction == 1) {
-                            worldMap[i][j] = worldMap[i - 1][j];
-                            worldMap[i][j] = '▢';
                             if (worldMap[i - 1][j] == '☒') {
-                                int randomEnemy = (int) (Math.random() * 3 - 1 + 1);
-                                if (randomEnemy == 0) {
-                                    NPC rat = spawnRat();
-                                    battlePhase(player, rat);
-                                    displayBattleResults(player, rat);
-                                } else if (randomEnemy == 1) {
-                                    NPC thug = spawnThug();
-                                    battlePhase(player, thug);
-                                    displayBattleResults(player, thug);
-                                } else {
-                                    NPC assassin = spawnAssassin();
-                                    battlePhase(player, assassin);
-                                    displayBattleResults(player, assassin);
-                                }
-
-
+                                worldMap[i-1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 1;
                             } else if (worldMap[i - 1][j] == '▩') {
-
+                                worldMap[i-1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 2;
                             } else if (worldMap[i - 1][j] == '▢') {
-
+                                worldMap[i-1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 3;
                             } else if (worldMap[i - 1][j] == '▣') {
-
+                                worldMap[i-1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 4;
                             }
-
-                            for (i = 0; i< worldMap.length; i++) {
-                                for (j = 0; j < worldMap[i].length; j++) {
-                                    System.out.print(worldMap[i][j] + " ");
-                                }
-                                System.out.println();
+                        } else if (direction == 2) {
+                            if (worldMap[i][j - 1] == '☒') {
+                                worldMap[i][j - 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 1;
+                            } else if (worldMap[i][j - 1] == '▩') {
+                                worldMap[i][j - 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 2;
+                            } else if (worldMap[i][j - 1] == '▢') {
+                                worldMap[i][j - 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 3;
+                            } else if (worldMap[i][j - 1] == '▣') {
+                                worldMap[i][j - 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 4;
                             }
-
+                        } else if (direction == 3) {
+                            if (worldMap[i][j + 1] == '☒') {
+                                worldMap[i][j + 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 1;
+                            } else if (worldMap[i][j + 1] == '▩') {
+                                worldMap[i][j + 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 2;
+                            } else if (worldMap[i][j + 1] == '▢') {
+                                worldMap[i][j + 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 3;
+                            } else if (worldMap[i][j + 1] == '▣') {
+                                worldMap[i][j + 1] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 4;
+                            }
+                        } else if (direction == 4) {
+                            if (worldMap[i + 1][j] == '☒') {
+                                worldMap[i+1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 1;
+                            } else if (worldMap[i + 1][j] == '▩') {
+                                worldMap[i+1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 2;
+                            } else if (worldMap[i + 1][j] == '▢') {
+                                worldMap[i+1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 3;
+                            } else if (worldMap[i + 1][j] == '▣') {
+                                worldMap[i+1][j] = worldMap[i][j];
+                                worldMap[i][j] = '▢';
+                                return 4;
+                            }
                         }
                     }
                 }
             }
-        }
-        return null;
+        return 0;
     }
+
+    public static void healingWell (PlayerCharacter player) {
+        Scanner reader = new Scanner(System.in);
+        System.out.println("You reach a serene grove that houses a calming spring of fresh water.");
+        System.out.println("Do you wish to drink?");
+        System.out.println("1. Yes     2.No");
+        int choice = reader.nextInt();
+        reader.nextLine();
+        if (choice == 1) {
+            player.setHp(player.getHp() + 6);
+            if (player.getHp() > player.getMaxHp()) {
+                player.setHp(player.getMaxHp());
+            }
+            System.out.println("You take a sip of the water and feel refreshed. Your hp is now: " + player.getHp());
+        } else if (choice == 2) {
+            System.out.println("You decide to not drink and leave the area.");
+        }
+    }
+
+//    public static void checkMovementDirection (char[][] worldMap, int i, int j) {
+//                if (worldMap[i-1][j] != '▢' && worldMap[i-1][j] != '☒' && worldMap[i-1][j] != '▩' && worldMap[i-1][j] != '▣') { //if up is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 2.Left    3.Right    4.Down");
+//                } else if(worldMap[i][j-1] != '▢' && worldMap[i][j-1] != '☒' && worldMap[i][j-1] != '▩' && worldMap[i][j-1] != '▣') { //if left is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 1.Up    3.Right    4.Down");
+//                } else if (worldMap[i+1][j] != '▢' && worldMap[i+1][j] != '☒' && worldMap[i+1][j] != '▩' && worldMap[i+1][j] != '▣') { //if down is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 1.Up    2.Left    3.Right");
+//                } else if (worldMap[i][j+1] != '▢' && worldMap[i][j+1] != '☒' && worldMap[i][j+1] != '▩' && worldMap[i][j+1] != '▣') { //if right is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 1.Up    2.Left    4.Down");
+//                } else if (worldMap[i-1][j] != '▢' && worldMap[i-1][j] != '☒' && worldMap[i-1][j] != '▩' && worldMap[i-1][j] != '▣' &&
+//                        worldMap[i][j-1] != '▢' && worldMap[i][j-1] != '☒' && worldMap[i][j-1] != '▩' && worldMap[i][j-1] != '▣') { //if up and left is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 3. Right    4.Down");
+//                } else if (worldMap[i-1][j] != '▢' && worldMap[i-1][j] != '☒' && worldMap[i-1][j] != '▩' && worldMap[i-1][j] != '▣' &&
+//                        worldMap[i][j+1] != '▢' && worldMap[i][j+1] != '☒' && worldMap[i][j+1] != '▩' && worldMap[i][j+1] != '▣') { //if up and right is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 2.Left    4.Down");
+//                } else if (worldMap[i+1][j] != '▢' && worldMap[i+1][j] != '☒' && worldMap[i+1][j] != '▩' && worldMap[i+1][j] != '▣' &&
+//                        worldMap[i][j-1] != '▢' && worldMap[i][j-1] != '☒' && worldMap[i][j-1] != '▩' && worldMap[i][j-1] != '▣') { //if down and left is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 1.Up    3. Right");
+//                } else if (worldMap[i+1][j] != '▢' && worldMap[i+1][j] != '☒' && worldMap[i+1][j] != '▩' && worldMap[i+1][j] != '▣' &&
+//                        worldMap[i][j+1] != '▢' && worldMap[i][j+1] != '☒' && worldMap[i][j+1] != '▩' && worldMap[i][j+1] != '▣') { //if down and right is out of bounds
+//                    System.out.println();
+//                    System.out.println("Move: 1.Up    2.Left");
+//                }
+//            }
 }
